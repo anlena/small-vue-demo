@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <v-header></v-header>
+    <!-- <sidebar></sidebar> -->
     <router-view/>
   </div>
 </template>
 
 <script>
+import VHeader  from './components/v-header/v-header'
+import Sidebar from './components/sidebar/sidebar'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    VHeader,
+    Sidebar
+  }
 }
 </script>
-
 <style lang="scss" scoped="" type="text/css">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+
 </style>
