@@ -4,3 +4,12 @@ export function attachImageUrl(url) {
     return url.replace(reg, 'https://images.weserv.nl/?url=p')
   }
 }
+
+export function addClass(){
+  if(hasClass(el,className)){
+    return;
+  }
+  let newClass = el.className.split(' ');
+  newClass.push(className);
+  el.className = newClass.join(' ');
+}
