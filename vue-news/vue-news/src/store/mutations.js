@@ -12,20 +12,103 @@ export default{
   [types.ADD_IDS](state,ids){
     state.ids = ids;
   },
+
   //改变第一次进入首页状态
   [types.CHANGE_FIRST_LOAD](state){
     state.isFirstLoad = !state.isFirstLoad;
   },
+
   // 改变首页日期
   [types.ADD_HOMEPAGE_DATE](state,date){
     state.homepageDate = date
   },
+
+  //改变首页日期字符串
+  [types.ADD_HOMEPAGE_DATE_STR](state,dateStr){
+    state.homepageDateStr = dateStr;
+  },
+
   //改变日期和当前字符串
   [types.ADD_DATE](state,date){
     state.date = date
   },
+
   //增加日期字符串
   [types.ADD_DATE_STR](state,dateStr){
     state.dateStr = dateStr
-  }
+  },
+
+  // 改变模式
+  [types.CHANGE_MODEL](state){
+    state.isNight = !state.isNight;
+  },
+
+  //改变当前新闻详情页id
+  [types.ADD_NEW_ID](state,id){
+    state.id = id;
+  },
+  
+  //改变跳转详情页的路由状态，判断是从哪里跳入
+  [types.CHANGE_GO_TYPES](state,type){
+    state.goType = type;
+  },
+
+  //添加详情页底部状态栏到数组
+  [types.STORY_EXTRA](state,extra){
+    state.comments = extra.comments;
+    state.long_comments = extra.long_comments;
+    state.short_comments = extra.short_comments;
+    state.popularity = extra.popularity
+  },
+
+  // 改变跳转详情页的路由状态，判断是从哪里跳入
+  [types.CHANGE_GO_TYPES](state,type){
+    state.goType = type;
+  },
+
+  //改变点赞数
+  [types.CHANGE_POPLARITY](state,num){
+    state.popularity = num;
+  },
+
+  //改变收藏状态
+  [types.CHANGE_COLLECT_STATE](state){
+    let index = state.isCollectIds.indexOf(state.id)
+    if(index < 0){
+        state.isCollect = true;
+        state.isCollectIds.push(state.id);
+        state.allStories.forEach((story) => {
+          if(story.id == state.id){
+            state.isCollectNews.push(story);
+          }
+        })
+    }else{
+      state.isCollect = false;
+      state.isCollectIds.splice(index,1);
+      state.isCollectNews.splice(index,1)
+    }
+  },
+
+  // 添加下一篇新闻id
+  [types.ADD_NEXT_ID](state,id){
+    state.id = id;
+    let index = state.ids.indexOf(id);
+    if(index < state.ids.length){
+      state.nextId = state.ids[index + 1];
+    }
+  },
+
+  // 添加更多的id数组
+  [types.ADD_MORE_IDS](state,ids){
+    state.ids = state.ids.concat(ids);
+  },
+
+  //添加主题新闻下一篇id
+  [types.ADD_THEME_NEXT_ID](state,id){
+    state.id = id;
+    let index = state.themeids.indexOf(id);
+    state.themenextId = state.themeids[index + 1];
+  },
+
+  
 }

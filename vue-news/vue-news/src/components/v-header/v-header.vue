@@ -1,15 +1,37 @@
 <template>
-  <div class="header">
-    <div class="model morning">
-      <span class="navigation"></span>
-      <h2>亚华意诺斯</h2>
+  <div class="header" ref="header">
+    <div class="model" :class="model">
+      <span class="navigation" @click="showSidebar"></span>
+      <h2>{{title}}</h2>
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import {mapGetters} from 'vuex'
 
+export default {
+  props:{
+    title:{
+      type:String,
+      default:'亚华意诺斯'
+    }
+  },
+  methods:{
+    showSidebar(){
+      // 显示侧边栏，向上派发事件
+      this.$emit('showSide');
+    }
+  },
+  computed:{
+    //返回当前模式
+    model(){
+      return this.isNight ? 'night' : 'morning'
+    },
+    ...mapGetters([
+      'isNight'
+    ])
+  }
 }
 </script>
 

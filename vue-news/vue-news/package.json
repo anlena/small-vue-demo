@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "better-scroll": "^1.9.1",
+    "better-scroll": "^1.6.0",
     "lib-flexible": "^0.3.2",
     "mint-ui": "^2.2.13",
     "px2rem-loader": "^0.1.8",

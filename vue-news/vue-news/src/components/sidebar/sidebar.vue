@@ -3,7 +3,7 @@
     <div class="user">
       <div class="avatar"></div>
       <div class="username">哈哈哈蜜瓜</div>
-      <div class="back"><img src="./back.png" width="44" height="44"></div>
+      <div class="back"><img src="./back.png" width="88" height="88"></div>
     </div>
     <div class="menu-list">
       <div class="menu">
