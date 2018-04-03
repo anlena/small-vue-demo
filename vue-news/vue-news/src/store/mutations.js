@@ -4,6 +4,21 @@ import * as types from './mutation_types'
 import { stat } from 'fs';
 
 export default{
+
+  //改变当前主题id
+  [types.CHANGE_CURRENT_THEME_ID](state,id){
+    state.currentThemeId = id;
+  },
+
+  //增加主题新闻数据
+  [types.ADD_THEME](state,payload){
+    state.currentTheme = payload;
+  },
+
+  // 主题新闻id数组
+  [types.ADD_THEME_NEWID](state,ids){
+    state.themeids = ids;
+  },
   
   // 增加首页新闻数组和首页新闻id数组
   [types.ADD_NEWS](state,stories){
@@ -11,6 +26,11 @@ export default{
   },
   [types.ADD_IDS](state,ids){
     state.ids = ids;
+  },
+
+  //增加全部加载过的新闻到数组
+  [types.ADD_ALL_NEWS](state,stories){
+    state.allStories = state.allStories.concat(stories);
   },
 
   //改变第一次进入首页状态
@@ -110,5 +130,12 @@ export default{
     state.themenextId = state.themeids[index + 1];
   },
 
-  
+  //判断收藏状态
+  [types.JUDGE_COLLECT_STATE](state){
+    if(state.isCollectIds.indexOf(state,id) < 0){
+      state.isCollect = false;
+    }else{
+      state.isCollect = true;
+    }
+  }
 }

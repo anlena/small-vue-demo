@@ -14,6 +14,8 @@ export const homepageDateStr = state => state.homepageDateStr
 
 export const id = state => state.id
 
+export const currentThemeId = state => state.currentThemeId
+
 
 export function getModel (state) {
   return state.isNight ? 'night' : 'morning'

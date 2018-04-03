@@ -21,6 +21,10 @@ export default{
   allStories:[],      //全部已加载新闻数组
   isCollectNews:[],   //收藏新闻数组
   nextId:'',          //下一篇新闻id
+  currentTheme:'',    //当前主题数组
   themeids:[],        //当前主题新闻数组id
-  themenextId:''      //主题内容下一篇新闻id
+  themenextId:'',     //主题内容下一篇新闻id
+  new:[],             //当前新闻详情页内容
+  editor:'',          //当前主编信息
+  favoriteList: []
 }

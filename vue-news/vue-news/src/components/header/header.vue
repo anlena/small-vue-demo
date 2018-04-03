@@ -36,6 +36,6 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "v-header.styl"
+  @import "header.styl"
 </style>
 
