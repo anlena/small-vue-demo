@@ -1,6 +1,6 @@
 <template>
   <div class="swipe">
-    <mt-swipe :auto="4000">
+    <mt-swipe :auto="0">
       <mt-swipe-item v-for="item in data" :key="item.id">
         <img :src="attachImageUrl(item.image)" @click="goNew(item.id)">
         <span class="title" @click="goNew(item.id)">{{item.title}}</span>
@@ -50,12 +50,13 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .swipe
     position relative
-    top 0px
+    top 101px
     height 400px
     width 100%
     img
       width 100%
-      height 400px
+      vertical-align middle
+      height auto
       z-index 1
     .title
       position absolute

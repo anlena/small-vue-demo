@@ -87,6 +87,11 @@ export function judgeCollectState({commit}){
   commit(types.JUDGE_COLLECT_STATE);
 }
 
+//改变主编id
+export function addEditorId({commit},payload){
+  commit(types.ADD_EDITOR_ID,payload)
+}
+
 export function addNews({commit, state}, {stories, ids}) {
   let nStories = state.stories.slice()
   let nIds = state.ids.slice()

@@ -1,13 +1,13 @@
 <template>
   <div class="themeDetail">
+    <v-header @showSide="show"></v-header>
+    <sidebar :sidebarShow="sidebarShow" @hideSidebar="hide" ref="sidebar"></sidebar>
     <div class="model" :class="model">
-      <v-header :title="themeTitle" @showSide="show"></v-header>
-      <sidebar ref="sidebar"></sidebar> 
       <div class="editors border-1px" @click="showEditors(id)">
         <span class="editor">主编</span>
         <div class="avatar" v-for="editor in this.$store.state.currentTheme.editors" :key="editor.id"><img
-          :src="attachImageUrl(editor.avatar)" width="50" height="50"></div>
-        <span class="arrow_right"><img src="./arrow_right.png" width="30" height="30"></span>
+          :src="attachImageUrl(editor.avatar)" width="30" height="30"></div>
+        <span class="arrow_right"><img src="./arrow_right.png" width="24" height="24"></span>
       </div>
       <div class="themeNewList" :class="model">
         <ul>
@@ -31,6 +31,7 @@ import router from '../../router'
 export default {
   data(){
     return{
+      sidebarShow: false,         //侧边栏显示状态
       id:'',            //当前主题id
       scroll:''
     }
@@ -83,6 +84,17 @@ export default {
       this.$store.dispatch('judgeCollectState');
       this.$store.dispatch('changeGoType', 3)
       this.$store.dispatch('addThemeNextId', id)
+    },
+    //显示侧边栏，在其显示时访问他的获取数据方法，从而使better-scroll能够计算出中间主题列表高度
+    show() {
+      this.sidebarShow = true;
+      if (this.sidebarShow) {
+        this.$refs.sidebar.fetchData();
+      }
+    },
+    //隐藏侧边栏
+    hide() {
+      this.sidebarShow = false;
     }
   },
   computed:{
@@ -100,7 +112,7 @@ export default {
     }
   },
   components:{
-    Header,
+    'v-header':Header,
     Sidebar
   }
 }
@@ -108,66 +120,73 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/index.styl"
-  .modal-open
-    position:fixed
-    width:100%
-  .model
-    &.morning
-      color rgb(51, 51, 51)
-      background-color rgb(255, 255, 255)
-    &.night
-      color rgb(184, 184, 184)
-      background-color rgb(52, 52, 52)
-    .editors
-      position relative
-      top 80px
-      width 92%
-      height 80px
-      line-height 80px
-      border-1px(rgba(7, 17, 27, 0.1))
-      padding 0 20px
-      .editor
-        font-size 17px  /*no*/
-        color rgb(102, 102, 102)
-      .avatar
-        display inline-block
-        img
-          margin-left 20px
-          border-radius 50%
-      .arrow_right
-        position absolute
-        right 20px
-        padding 0 20px
-    .themeNewList
-      position relative
-      top 80px
-      width 100%
-      height 100%
+  .themeDetail
+    position:relative
+    top:101px;
+    overflow scroll
+    .modal-open
+      width:100%
+    .model
+      overflow auto
       &.morning
         color rgb(51, 51, 51)
         background-color rgb(255, 255, 255)
       &.night
         color rgb(184, 184, 184)
         background-color rgb(52, 52, 52)
-      .new
-        display flex
+      .editors
         position relative
-        left -30px
-        padding 40px 0 40px 20px
+        top 0px
+        width 92%
+        height 100px
+        line-height 100px
         border-1px(rgba(7, 17, 27, 0.1))
-        .title
-          flex 1
-          margin-right 20px
-          line-height 40px
+        padding 0 20px
+        .editor
+          font-size 32px  /*no*/
+          color rgb(102, 102, 102)
         .avatar
-          flex 0 0 140px
-          width 140px
-          height 110px
+          display inline-block
           img
-            width 140px
-            height 110px
-            img[lazy=loading]
-              height 110px
-              width 140px
-              margin auto
+            margin-left 20px
+            vertical-align middle
+            border-radius 50%
+        .arrow_right
+          position absolute
+          top 10px
+          right 10px
+          padding 0 10px
+      .themeNewList
+        position relative
+        top 0px
+        width 100%
+        height 100%
+        &.morning
+          color rgb(51, 51, 51)
+          background-color rgb(255, 255, 255)
+        &.night
+          color rgb(184, 184, 184)
+          background-color rgb(52, 52, 52)
+        .new
+          display flex
+          position relative
+          left 0px
+          padding 30px 20px 30px 20px
+          border-1px(rgba(7, 17, 27, 0.1))
+          .title
+            flex 1
+            margin-right 20px
+            line-height 40px
+            font-size:16px; /*no*/
+          .avatar
+            flex 0 0 130px
+            width 130px
+            height 120px
+            img
+              width 130px
+              height 120px
+              img[lazy=loading]
+                height 120px
+                width 130px
+                margin auto
 </style>

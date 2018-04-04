@@ -5,13 +5,13 @@
       <ul>
         <li class="editor border-1px" v-for="editor in this.$store.state.currentTheme.editors" :key="editor.id" @click="goEditor(editor.id,editor.name)">
           <div class="avatar">
-            <img :src="attachImageUrl(editor.avatar)" height="70" width="70">
+            <img :src="attachImageUrl(editor.avatar)" height="40" width="40">
           </div>
           <div class="description">
             <div class="name">{{editor.name}}</div>
             <div class="bio">{{editor.bio}}</div>
           </div>
-          <div class="arrow_right"><img src="./arrow_right.png" width="30" height="30"></div>
+          <div class="arrow_right"><img src="./arrow_right.png" width="20" height="20"></div>
         </li>
       </ul>
     </div>
@@ -59,12 +59,13 @@
   @import "../../common/stylus/index.styl"
   .list
     position relative
-    top 80px
+    top 103px
     ul
       padding-left 0
       .editor
         display flex
         height 120px
+        box-sizing border-box
         border-1px(rgba(7, 17, 27, 0.1))
         .avatar
           flex 0 0 50px
@@ -74,18 +75,20 @@
           margin-right 30px
           img
             border-radius 50%
+            vertical-align middle
         .description
           flex 1
           height 120px
           .name
-            font-size:14px; /*no*/
-            margin-top 20px
+            font-size:16px; /*no*/
+            margin-top 30px
           .bio
             font-size:11px; /*no*/
             margin-top 16px
             color rgb(153, 153, 153)
         .arrow_right
           flex 0 0 50px
-          line-height 1200px
+          line-height 120px
+          padding-top 10px
           padding-right 20px
 </style>

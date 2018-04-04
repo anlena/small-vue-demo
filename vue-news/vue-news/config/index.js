@@ -3,31 +3,23 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-
+var proxyConfig = require('./proxyConfig')
 module.exports = {
   dev: {
 
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api':{
-        target:'http://news-at.zhihu.com',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/api/4'
-        }
-      }
-    },
 
     // Various Dev Server settings
-    host:'192.168.3.30', // can be overwritten by process.env.HOST
+    // host:'localhost', // can be overwritten by process.env.HOST
+    env: require('./dev.env'),
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
+    proxyTable: proxyConfig.proxy,
     
     /**
      * Source Maps

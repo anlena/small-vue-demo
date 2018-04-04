@@ -53,6 +53,6 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .content
     position relative
-    top 60px
+    top 101px
     margin 0
 </style>

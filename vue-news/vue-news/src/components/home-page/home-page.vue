@@ -1,95 +1,189 @@
 <template>
-  <div class="homepage" ref="homepage">
+  <div class="home-page" ref="homepage">
     <v-header @showSide="show"></v-header>
     <sidebar :sidebarShow="sidebarShow" @hideSidebar="hide" ref="sidebar"></sidebar>
-    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :topDistance="topDistance"
-                 :bottomDistance="bottomDistance"
-                 @top-status-change="handleTopChange"
-                 @bottom-status-change="handleBottomChange" ref="loadmore">
-      <swipe></swipe>
-      <!-- <homepageDetail @hideSidebar="hide" ref="homePageDetail"></homepageDetail> -->
-
-
-    </mt-loadmore>
+    <scroll :pull-up="pullUp" @pullUp="fetchMoreDate" v-if="stories.length" :data="stories" class="home-page-content">
+      <div>
+        <div v-if="sliders.length" class="slider-wrapper">
+          <div class="slider-content">
+            <slider>
+              <div v-for="item in sliders" :key="item.id">
+                <img :src="item.image">
+              </div>
+            </slider>
+          </div>
+        </div>
+        <div class="newList">
+          <div class="model" :class="model">
+            <ul>
+              <li v-for="story in stories" :key="story.id" class="new border-1px"
+                  @click="goNew(story.id)" :class="model">
+                <span class="title">{{story.title}}</span>
+                <span class="avatar" v-for="(item,index) in story.images" v-if="index<1" :key="index"><img
+                  v-lazy="attachImageUrl(item)"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import header from '../header/header.vue'
-  import sidebar from '../sidebar/sidebar.vue'
-  import swipe from  '../swipe/swipe.vue'
-  import homepageDetail from '../home-page-detail/home-page-detail.vue'
   import axios from 'axios'
-
+  import Slider from 'base/slider/slider'
+  import Scroll from 'base/scroll/scroll'
+  import Header from 'components/header/header.vue'
+  import Sidebar from '../sidebar/sidebar.vue'
+  import HomePageDetail from 'components/home-page-detail/home-page-detail'
+  import {getSlider, getNews} from 'api/homePage'
+  import {attachImageUrl} from 'common/js/dom'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   export default {
     data() {
       return {
         sidebarShow: false,                   //侧边栏初始状态
-        data: [],                               //初始化首页新闻数据
-        topDistance: 50,                       //下拉刷新最小距离
-        bottomDistance: 70,                    //上拉加载最小距离
-        bottomStatus: '',                      //底部状态
-        topStatus: '',                           //顶部状态
-        scroll: ''
+        sliders: [],
+        date: Date,
+        dateStr: '',
+        pullUp: true
       }
     },
+    created() {
+      if (this.isFirstLoad) {
+        this.fetchData();
+        this.setFirstLoad();
+        this.initDate();
+      }
+    },
+    mounted() {
+      setTimeout(() => {
+        this._getSlider()
+      }, 20)
+    },
     methods: {
-      //获取底部更新状态
-      handleBottomChange(status){
-        this.bottomStatus = status;
+      _getSlider() {
+        getSlider().then((res) => {
+          this.sliders = this.initImage(res.data.top_stories)
+        })
       },
-      //获取顶部更新状态
-      handleTopChange(status) {
-        this.topStatus = status;
+      initImage(data) {
+        data.map((item) => {
+          item.image = attachImageUrl(item.image)
+        })
+        return data
       },
-      //下拉刷新，触发向子组件派发方法
-      loadTop() {
-        // this.$refs.homePageDetail.$emit('refresh')
-        // this.$refs.loadmore.onTopLoaded()
+      //获取最新消息
+      fetchData() {
+        getNews().then((response) => {
+          let stories = response.data.stories;
+          let ids = stories.map(story => story.id)
+          this.addNews({
+            stories: stories,
+            ids: ids
+          })
+        }).catch((error) => {
+          console.log(error)
+        })
       },
-      //上拉加载，触发向子组件派发方法
-      loadBottom() {
-        // this.$refs.homePageDetail.$emit('loadMore')
-        // this.$refs.loadmore.onBottomLoaded()
+      //转换图片url
+      attachImageUrl(srcUrl) {
+        if (srcUrl !== undefined) {
+          return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p');
+        }
+      },
+      //获取第一次加载当前日期
+      initDate() {
+        this.date = new Date();
+        this.addDate(new Date(this.date.getTime()))
+        console.log(new Date(this.date.getTime()))
+        this.changeDateStr();
+      },
+      //把日期改为字符串形式
+      changeDateStr() {
+        let nowDate = new Date(this.homepageDate.getTime());
+        let year = nowDate.getFullYear() + '';
+        let month = nowDate.getMonth() + 1;
+        let date = nowDate.getDate();
+        month = month < 10 ? '0' + month : month + '';
+        date = date < 10 ? '0' + date : date + '';
+        this.dateStr = year + month + date;
+        this.addDateStr(this.dateStr)
+      },
+      //将日期推前一天
+      decreaseDateStr() {
+        let homeDate = this.homepageDate;
+        homeDate.setDate(homeDate.getDate() - 1)
+        this.addDate(new Date(homeDate.getTime()))
+        this.changeDateStr();
+      },
+      //获取前一天的新闻
+      fetchMoreDate() {
+        console.log(this.homepageDateStr)
+        axios.get('api/news/before/' + this.homepageDateStr).then((response) => {
+          let stories = response.data.stories;
+          let ids = stories.map(story => story.id)
+          this.addNews({
+            stories: stories,
+            ids: ids
+          })
+        }).catch((error) => {
+          console.log(error)
+        })
+        this.decreaseDateStr();
+      },
+      //去往详情页
+      goNew(id) {
+        this.setGoType({
+          id: id,
+          type: 1
+        })
+        this.$router.push({name: 'newDetail', params: {id: id}});
       },
       //显示侧边栏，在其显示时访问他的获取数据方法，从而使better-scroll能够计算出中间主题列表高度
       show() {
-        this.scroll = document.scrollingElement.scrollTop
         this.sidebarShow = true;
         if (this.sidebarShow) {
-          this.$nextTick(() => {
-            this.$refs.sidebar.fetchData();
-          })
-          document.body.className = 'modal-open'
-          document.body.style.top = -this.scroll + 'px'
+          this.$refs.sidebar.fetchData();
         }
-
       },
       //隐藏侧边栏
       hide() {
         this.sidebarShow = false;
-        document.body.className = ""
-        document.scrollingElement.scrollTop = this.scroll
-      }
+      },
+      ...mapMutations({
+        setFirstLoad: 'CHANGE_FIRST_LOAD'
+      }),
+      ...mapActions([
+        'addNews',
+        'addDate',
+        'addDateStr',
+        'setGoType'
+      ])
+    },
+    computed: {
+      model() {
+        return this.isNight ? 'night' : 'morning'
+      },
+      ...mapGetters([
+        'stories',
+        'isNight',
+        'isFirstLoad',
+        'homepageDate',
+        'homepageDateStr'
+      ])
     },
     //注册组件
     components: {
-      'v-header': header,
-      sidebar, swipe, homepageDetail
+      Slider,
+      Scroll,
+      'v-header':Header,
+      Sidebar
     }
   }
 </script>
+
 <style lang="stylus" rel="stylesheet/stylus">
   @import "home-page.styl"
-    .mint-loadmore-top
-      position relative
-      top 0px
-
-    .mint-loadmore-bottom
-      position relative
-      bottom 30px
-
-    .modal-open
-      position:fixed
-      width:100%
 </style>

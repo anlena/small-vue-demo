@@ -137,5 +137,10 @@ export default{
     }else{
       state.isCollect = true;
     }
-  }
+  },
+
+  //改变主编id
+  [types.ADD_EDITOR_ID](state,payload){
+    state.editor = payload;
+  },
 }

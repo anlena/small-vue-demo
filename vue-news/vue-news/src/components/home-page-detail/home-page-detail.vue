@@ -39,21 +39,22 @@
     },
     methods:{
       //下拉刷新回掉函数
-      refreshData() {
-        this.$store.dispatch('deleteData');
-        this.$nextTick(() => {
-          this.fetchData();
-        })
-      },
-      //上拉加载回掉函数
-      loadMoreData() {
-        this.$nextTick(() => {
-          this.fetchMoreDate();
-        })
-      },
+      // refreshData() {
+      //   this.$store.dispatch('deleteData');
+      //   this.$nextTick(() => {
+      //     // this.fetchData();
+      //   })
+      // },
+      // //上拉加载回掉函数
+      // loadMoreData() {
+      //   this.$nextTick(() => {
+      //     // this.fetchMoreDate();
+      //   })
+      // },
       //获取最新消息
       fetchData() {
         axios.get('api/news/latest').then((response) => {
+          console.log(response);
           let stories = response.data.stories;
           let ids = stories.map(story => story.id)
 

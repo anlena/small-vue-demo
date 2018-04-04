@@ -25,7 +25,7 @@
       &.isThumbUp
         color deepskyblue
       .iconfont
-        font-size 25px
+        font-size:20px; /*no*/
       img
         position relative
         bottom 6px
@@ -66,18 +66,19 @@
         padding 20px 0
         top 10px
         width 100%
+        height 300px
         font-size 0
         .shareMenu
           display inline-block
           box-sizing border-box
-          padding-top 30px
+          padding-top 40px
           z-index 50
           width 25%
           margin-bottom 60px
           text-align center
           i
-            font-size:25px;  /*no*/
-            padding 20px
+            font-size:24px;  /*no*/
+            padding 20px 20px
             border-radius 50%
             color #ffffff
             &.icon-weixinhaoyou
@@ -100,19 +101,17 @@
               background: #4fe54e;
             &.icon-instapaper
               background: #6c6c6c;
-
           .name
             display block
             position relative
             top 40px
             font-size:18px; /*no*/
             text-align center
-
       .button
         position relative
         height 80px
         width 80%
-        bottom 10px
+        top 100px
         margin 30px auto
         background rgb(255, 255, 255)
         text-align center
@@ -137,7 +136,6 @@
         transition all 0.5s
       &.fade-enter, &.fade-leave-active
         opacity 0
-
 
 .modal-open
   position fixed

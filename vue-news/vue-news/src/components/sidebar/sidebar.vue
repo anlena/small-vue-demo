@@ -5,11 +5,11 @@
         <div class="user">
           <div class="avatar"></div>
           <div class="username">二二二小哈</div>
-          <div class="back" @click="hide"><img src="./back.png" width="44" height="44"></div>
+          <div class="back" @click="hide"><img src="./back.png" width="24" height="24"></div>
         </div>
         <div class="menu-list">
           <div class="menu" @click="goCollect">
-            <div class="avatar"><img src="./collect.png" width="40" height="40"></div>
+            <div class="avatar"><img src="./collect.png" width="18" height="18"></div>
             <div class="name">收藏</div>
           </div>
           <div class="menu">
@@ -35,13 +35,13 @@
             <div class="name">离线</div>
           </div>
           <div class="menu" @click="changeModel">
-            <div class="avatar"><img :src="modelImg" width="36" height="36"></div>
+            <div class="avatar"><img :src="modelImg" width="12" height="12"></div>
             <div class="name">{{modelText}}</div>
           </div>
         </div>
       </div>
     </transition>
-    <transition class="fold">
+    <transition name="fold">
       <div class="mask" @click.stop.prevent="hide" v-show="showFlag"></div>
     </transition>
   </div>
