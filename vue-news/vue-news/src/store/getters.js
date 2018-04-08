@@ -22,5 +22,11 @@ export function getModel (state) {
 }
 
 export function getCollect (state){
+  state.isCollect = false;
+  state.isCollectIds.forEach(id => {
+    if(state.id == id){
+      state.isCollect = true;
+    }
+  });
   return state.isCollect ? '取消收藏':'收藏'
 }

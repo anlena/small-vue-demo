@@ -120,7 +120,7 @@
       },
       //获取前一天的新闻
       fetchMoreDate() {
-        console.log(this.homepageDateStr)
+        // console.log(this.homepageDateStr);
         axios.get('api/news/before/' + this.homepageDateStr).then((response) => {
           let stories = response.data.stories;
           let ids = stories.map(story => story.id)

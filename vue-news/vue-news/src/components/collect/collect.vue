@@ -4,7 +4,7 @@
     <div class="model" :class="model">
       <div class="collectNewList">
         <ul>
-          <li v-for="story in data" class="new border-1px" @click="goNew(story,id)" :key="story.id">
+          <li v-for="story in data" class="new border-1px" @click="goNew(story.id)" :key="story.id">
             <span class="title">{{story.title}}</span>
             <span class="avatar"><img :src="attachImageUrl(story.images[0])"></span>
           </li>
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "../../common/stylus/index.styl";
+@import "../../common/stylus/index.styl";
   .collect
     position fixed
     width 100%
@@ -87,21 +87,22 @@ export default {
         background-color rgb(52, 52, 52)
       .collectNewList
         position absolute
-        top 80px
+        top 101px
         width 100%
         z-index 30
         .new
           display flex
+          box-sizing border-box
           position relative
-          left -30px
-          padding 30px 0 30px 20px
+          left 0px
+          padding 30px 20px 30px 20px
           border-1px(rgba(7, 17, 27, 0.1))
           .title
             flex 1
             margin-right 20px
             line-height 40px
           .avatar
-            flex 0 0 1400px
+            flex 0 0 140px
             width 140px
             height 110px
             img

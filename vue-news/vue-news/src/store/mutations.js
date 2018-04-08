@@ -23,6 +23,7 @@ export default{
   // 增加首页新闻数组和首页新闻id数组
   [types.ADD_NEWS](state,stories){
     state.stories = stories;
+    state.allStories = state.allStories.concat(stories);
   },
   [types.ADD_IDS](state,ids){
     state.ids = ids;
