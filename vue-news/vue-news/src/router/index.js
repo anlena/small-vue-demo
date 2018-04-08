@@ -35,11 +35,11 @@ export default new Router({
       component:ThemeDetail
     },{
       path:'/editorsList/:id',
-      name:'editorsList',
+      name:'editorsList',             //作者列表
       component:EditorsList
     },{
       path:'/editor/:id',
-      name:'editor',
+      name:'editor',                  //作者详情
       component:Editor
     }
   ],
